@@ -3,6 +3,9 @@ package Model;
 import java.text.DecimalFormat;
 import java.util.*;
 import MathOperator.RevenueSummary;
+import Repository.RevenueRepository;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Arima {
 
@@ -47,12 +50,25 @@ public class Arima {
 
         return integratedModel.restore(prevData, arPrediction + maPrediction);
     }
-    
+
+    public double[] predictNextDays(double[] initialData, int days) {
+        double[] futurePredictions = new double[days];
+        double[] currentData = Arrays.copyOf(initialData, initialData.length);
+        for (int i = 0; i < days; i++) {
+            double predictedValue = predict(currentData);
+            futurePredictions[i] = predictedValue;
+            currentData = Arrays.copyOf(currentData, currentData.length + 1);
+            currentData[currentData.length - 1] = predictedValue;
+        }
+        return futurePredictions;
+    }
+
     public static void main(String[] args) {
-        String baseFolder = "C:/Users/hmqua/OneDrive/Documents/NetBeansProjects/RevenuePrediction/";
+        String baseFolder = "C:/Users/hmqua/OneDrive/Documents/NetBeansProjects/RevenuePrediction/RevenueByDay";
         List<String> folders = new ArrayList<>(Arrays.asList("09_03_2025", "11_03_2025", "12_03_2025", "13_03_2025", "14_03_2025", "17_03_2025", "19_03_2025"));
         RevenueSummary summary = new RevenueSummary(baseFolder, folders);
         summary.calculateRevenue();
+
         Map<String, Double> revenueData = summary.getDailyRevenue();
         double[] revenueArray = revenueData.values().stream().mapToDouble(Double::doubleValue).toArray();
 
@@ -61,21 +77,20 @@ public class Arima {
         arima.train(revenueArray);
         summary.displaySummary();
 
-        double[] futurePredictions = new double[10];
-        double[] currentData = Arrays.copyOf(revenueArray, revenueArray.length);
-        for (int i = 0; i < 10; i++) {
-            double predictedValue = arima.predict(currentData);
-            futurePredictions[i] = predictedValue;
-            currentData = Arrays.copyOf(currentData, currentData.length + 1);
-            currentData[currentData.length - 1] = predictedValue;
+        System.out.println("Next 10 days prediction");
+        double[] next10Days = arima.predictNextDays(revenueArray, 10);
+        DecimalFormat df = new DecimalFormat("#,###");
+
+        LocalDate today = LocalDate.now();
+        ArrayList<Double> revenueList = new ArrayList<>();
+
+        for (int i = 0; i < next10Days.length; i++) {
+            LocalDate predictionDate = today.plusDays(i + 1);
+            System.out.println("Day " + (i + 1) + " (" + predictionDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "): " + df.format(next10Days[i]));
+            revenueList.add(next10Days[i]);
         }
 
-        DecimalFormat df = new DecimalFormat("#,### VND");
-        System.out.println("Next 10 days prediction:");
-        for (int i = 0; i < futurePredictions.length; i++) {
-            System.out.println("Day " + (i + 1) + ": " + df.format(futurePredictions[i]));
-        }
-
+        RevenueRepository.savePredictions(revenueList,next10Days.length);
     }
-}
 
+}
