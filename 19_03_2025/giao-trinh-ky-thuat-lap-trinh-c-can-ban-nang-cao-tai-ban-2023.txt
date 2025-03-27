@@ -1,0 +1,14 @@
+Name:
+Giáo Trình Kỹ Thuật Lập Trình C Căn Bản & Nâng Cao (Tái Bản 2023)
+Price:
+140.000 đ
+Sale amount:
+Đã bán 280
+Product code:
+8935095633166
+Category:
+Sách tiếng Việt Khoa học kỹ thuật Tin học 
+description:
+Giáo Trình Kỹ Thuật Lập Trình C Cơ Sở Và Nâng Cao
+Giáo trình kỹ thuật lập trình C căn bản và nâng cao được hình thành qua nhiều năm giảng dạy của các tác giả. Ngôn ngữ lập trình C là một môn học cơ sở trong chương trình đào tạo kỹ sư, cử nhân tin học của nhiều trường đại học. Ở đây sinh viên được trang bị những kiến thức cơ bản nhất về lập trình, các kỹ thuật tổ chức dữ liệu và lập trình căn bản với ngôn ngữ C.
+Để đáp ứng nhu cầu học tập ngôn ngữ lập trình C của sinh viên cũng như nhu cầu về tài liệu cho mọi người trong nhiều ngành khoa học và kỹ thuật cần nghiên cứu C để giải quyết các bài toán của mình, tác giả biên soạn cuốn sách này. Nội dung cuốn sách là tập hợp một cách có chọn lọc các bài giảng của các tác giả.
